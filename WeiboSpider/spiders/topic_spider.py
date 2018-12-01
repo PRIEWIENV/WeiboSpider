@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from WeiboSpider.items import WeiboSpiderItem
 from scrapy import Request, Spider
 import json
@@ -14,8 +13,7 @@ class TopicSpider(Spider):
 
     def parse(self, response):
         result = json.loads(response.text)
-        if result.get('ok') and result.get('data').get('cards') and len(result.get('data').get('cards')) and result.get('data').get('cards')[-1].get(
-        'card_group'):
+        if result.get('ok') and result.get('data').get('cards') and len(result.get('data').get('cards')) and result.get('data').get('cards')[-1].get('card_group'):
             posts = result.get('data').get('cards')[-1].get('card_group')
             for post in posts:
                 weibo_item = WeiboSpiderItem()
@@ -34,14 +32,16 @@ class TopicSpider(Spider):
                         weibo_item['gender'] = user.get('gender')
                         weibo_item['followers_num'] = user.get('followers_count')
                         weibo_item['follow_num'] = user.get('follow_count')
-                        yield Request(self.user_url.format(uid=uid), callback=self.parse_user(weibo_item))
+                        # yield Request(self.user_url.format(uid=uid), callback=self.parse_user)
                 yield weibo_item
             page = response.meta.get('page') + 1
             yield Request(self.start_url.format(page=page), callback=self.parse, meta={'page': page})
 
-    def parse_user(self, response, weibo_item):
-        weibo_item['location'] = response.xpath('//div["detail"]/ul/li[1]/span[-1]/text()').extract()
-        weibo_item['birth'] = response.xpath('//div["detail"]/ul/li[3]/span[-1]/text()').extract()
+    def parse_user(self, response):
+        print 'sddddddddddddddddddddddd' 
+        print response.xpath('//*').extract()
+        # weibo_item['birth'] = 
+        print response.xpath('//div["detail"]/ul/li[3]/span[-1]/text()').extract()
 
     def parse_time(self, date):
         if re.match('刚刚', date):

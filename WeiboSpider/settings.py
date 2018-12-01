@@ -19,7 +19,7 @@ NEWSPIDER_MODULE = 'WeiboSpider.spiders'
 #USER_AGENT = 'WeiboSpider (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -56,11 +56,6 @@ ROBOTSTXT_OBEY = True
 #    'WeiboSpider.middlewares.WeibospiderDownloaderMiddleware': 543,
 #}
 
-DOWNLOADER_MIDDLEWARES = {
-    'weiboSpider.middlewares.CookiesMiddleware': 554,
-    'weiboSpider.middlewares.ProxyMiddleware': 555,
-}
-
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
 #EXTENSIONS = {
@@ -72,6 +67,10 @@ DOWNLOADER_MIDDLEWARES = {
 #ITEM_PIPELINES = {
 #    'WeiboSpider.pipelines.WeibospiderPipeline': 300,
 #}
+
+ITEM_PIPELINES = {
+    'WeiboSpider.pipelines.TimePipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
